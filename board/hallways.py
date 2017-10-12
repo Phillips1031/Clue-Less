@@ -21,11 +21,19 @@ class Hallway(object):
         self.connectingRooms.add(newRoom)
         
     def is_hallway_occupied(self):
-        return(repr(self.occupied))
+        return(self.occupied is OccupiedStatus.OCCUPIED)
+    
+    def change_to_occupied(self):
+        self.occupied = OccupiedStatus.OCCUPIED
         
+    def change_to_not_occupied(self):
+        self.occupied = OccupiedStatus.NOT_OCCUPIED
+        
+    def return_connecting_rooms(self):
+        return(self.connectingRooms)
         
 from enum import Enum        
 class OccupiedStatus(Enum):
-    NOT_OCCUPIED = 0
-    OCCUPIED = 1
+    NOT_OCCUPIED = 1
+    OCCUPIED = 2
     
