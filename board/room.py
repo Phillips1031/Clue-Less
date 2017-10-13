@@ -11,39 +11,24 @@ class Room(object):
     '''
 
 
-    def __init__(self, roomType):
+    def __init__(self, roomname):
         '''
         Constructor
         '''
-        self.roomType = roomType
+        self.roomname = roomname
         self.connectingRooms = set()
         self.secretTunnel = set()      
 
     def whatRoom(self):
         # Simple function for test
         for k in self.connectingRooms:
-            print(k.name)
+            print( "Is {} occupied?': {}".format(k.hallwayName, k.is_hallway_occupied()))
 
-    def addConnectingRooms(self, newRoom):
+    def add_connecting_hallway(self, newHallway):
         #Try to change rooms
-        self.connectingRooms.add(newRoom)
+        self.connectingRooms.add(newHallway)
         
-def initalizeSTUDY():
-    study = Room(RoomType.STUDY)
-    study.addConnectingRooms(RoomType.HALL)
-    study.addConnectingRooms(RoomType.LIBRARY)
-    return(study)
 
-from enum import Enum        
-class RoomType(Enum):
-    STUDY = 1
-    HALL = 2
-    LOUNGE = 3
-    LIBRARY = 4 
-    BILLIARDS = 5
-    DINING = 6
-    CONSERVATORY = 7
-    BALLROOM = 8 
-    KITCHEN = 9
+
     
     

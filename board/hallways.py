@@ -10,30 +10,28 @@ class Hallway(object):
     '''
 
 
-    def __init__(self):
+    def __init__(self,name):
         '''
         Constructor
         '''
-        self.occupied = OccupiedStatus.NOT_OCCUPIED
+        self.hallwayName = name
+        self.occupied = False
         self.connectingRooms = set()
-        
+
     def add_connecting_rooms(self,newRoom):
         self.connectingRooms.add(newRoom)
         
     def is_hallway_occupied(self):
-        return(self.occupied is OccupiedStatus.OCCUPIED)
+        return(self.occupied)
     
     def change_to_occupied(self):
-        self.occupied = OccupiedStatus.OCCUPIED
+        self.occupied = True
         
     def change_to_not_occupied(self):
-        self.occupied = OccupiedStatus.NOT_OCCUPIED
+        self.occupied = False
         
     def return_connecting_rooms(self):
         return(self.connectingRooms)
         
-from enum import Enum        
-class OccupiedStatus(Enum):
-    NOT_OCCUPIED = 1
-    OCCUPIED = 2
+
     
