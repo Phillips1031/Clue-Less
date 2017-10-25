@@ -3,11 +3,13 @@ Created on Oct 2, 2017
 
 @author: Zack
 '''
-from board import hallways
+from board import location
 
-from hallways import Hallway
+from location import Hallway
 
-from hallways import Room
+from location import Room
+
+from Character import CharacterN
 
 if __name__ == '__main__':
     #Attempt to initialize board files
@@ -19,11 +21,15 @@ if __name__ == '__main__':
     hallway1 = Hallway('hallway 1')
     hallway2 = Hallway('hallway 2')
     
+    mustard = CharacterN.Character("mustard", study)
+    
     #assign both hallways to the study 
     #and assign only hallway 2 to the kitchen
     study.add_connecting_locations(hallway1)
     study.add_connecting_locations(hallway2)
     kitchen.add_connecting_locations(hallway2)
+    
+    mustard.possible_moves()
     
     #check the hallways initial state
     study.show_connecting_locations()
