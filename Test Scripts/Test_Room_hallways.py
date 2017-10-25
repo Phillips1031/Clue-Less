@@ -5,39 +5,38 @@ Created on Oct 2, 2017
 '''
 from board import hallways
 
-from board import room
+from hallways import Hallway
+
+from hallways import Room
 
 if __name__ == '__main__':
     #Attempt to initialize board files
    
     #inialize 2 rooms and 2 hallways
-    study = room.Room('study')
-    kitchen = room.Room('kitchen')
+    study = Room('study')
+    kitchen = Room('kitchen')
     
-    hallway1 = hallways.Hallway('hallway 1')
-    hallway2 = hallways.Hallway('hallway 2')
+    hallway1 = Hallway('hallway 1')
+    hallway2 = Hallway('hallway 2')
     
     #assign both hallways to the study 
     #and assign only hallway 2 to the kitchen
-    study.add_connecting_hallway(hallway1)
-    study.add_connecting_hallway(hallway2)
-    kitchen.add_connecting_hallway(hallway2)
+    study.add_connecting_locations(hallway1)
+    study.add_connecting_locations(hallway2)
+    kitchen.add_connecting_locations(hallway2)
     
     #check the hallways initial state
-    study.whatRoom()
-    kitchen.whatRoom()
+    study.show_connecting_locations()
+    kitchen.show_connecting_locations()
     
     #change the hallway 1 to occupied check both rooms
     hallway1.change_to_occupied()
-    study.whatRoom()
-    kitchen.whatRoom()
-    
+        
     #change hallway2 to occupied and hallway1 to not
     #again check the state of both
     hallway2.change_to_occupied()
     hallway1.change_to_not_occupied()
-    study.whatRoom()
-    kitchen.whatRoom()
+   
     
     
 

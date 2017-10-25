@@ -4,23 +4,41 @@ Created on Oct 10, 2017
 @author: Zack
 '''
 
-class Hallway(object):
+class Location(object):
     '''
-    classdocs
+    Areas of the game board that a character can occupy.
+    
+    TODO:  Start Locations?
+    '''
+    
+    def __init__(self, name):
+        self.name = name
+        self.connectingLocations = set()
+        
+    def add_connecting_locations(self, connectingLocation):
+        self.connectingLocations.add(connectingLocation)
+        
+    def __str__(self):
+        return self.name
+    
+    def show_connecting_locations(self):
+        # Simple function for test
+        for k in self.connectingLocations:
+            print( "{} is connected to {}".format(self.name, k))
+
+class Hallway(Location):
+    '''
+    Connections between rooms.
     '''
 
 
-    def __init__(self,name):
+    def __init__(self, hallwayName):
         '''
         Constructor
         '''
-        self.hallwayName = name
+        super().__init__(hallwayName)
         self.occupied = False
-        self.connectingRooms = set()
 
-    def add_connecting_rooms(self,newRoom):
-        self.connectingRooms.add(newRoom)
-        
     def is_hallway_occupied(self):
         return(self.occupied)
     
@@ -29,9 +47,20 @@ class Hallway(object):
         
     def change_to_not_occupied(self):
         self.occupied = False
+
         
-    def return_connecting_rooms(self):
-        return(self.connectingRooms)
+class Room(Location):
+    '''
+   Locations that characters can occupy and make suggestions in.
+    '''
+    
+    def __init__(self, roomname):
+        '''
+        Constructor
+        '''
+        super().__init__(roomname)
+
         
+
 
     
