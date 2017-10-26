@@ -26,10 +26,15 @@ if __name__ == '__main__':
     #assign both hallways to the study 
     #and assign only hallway 2 to the kitchen
     study.add_connecting_locations(hallway1)
+    hallway1.add_connecting_locations(study)
     study.add_connecting_locations(hallway2)
+    hallway2.add_connecting_locations(study)
     kitchen.add_connecting_locations(hallway2)
+    hallway2.add_connecting_locations(kitchen)
     
-    mustard.possible_moves()
+        
+    while True:
+        mustard.possible_moves()
     
     #check the hallways initial state
     study.show_connecting_locations()
