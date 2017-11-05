@@ -11,6 +11,11 @@ from location import Room
 
 from Character import CharacterN
 
+
+def connect_locations(location1, location2):   
+    location1.add_connecting_locations(location2)
+    location2.add_connecting_locations(location1)
+    
 if __name__ == '__main__':
     #Attempt to initialize board files
    
@@ -25,14 +30,10 @@ if __name__ == '__main__':
     
     #assign both hallways to the study 
     #and assign only hallway 2 to the kitchen
-    study.add_connecting_locations(hallway1)
-    hallway1.add_connecting_locations(study)
-    study.add_connecting_locations(hallway2)
-    hallway2.add_connecting_locations(study)
-    kitchen.add_connecting_locations(hallway2)
-    hallway2.add_connecting_locations(kitchen)
-    
-        
+    connect_locations(study, hallway1)
+    connect_locations(study, hallway2)
+    connect_locations(kitchen, hallway2)
+
     while True:
         mustard.possible_moves()
     
@@ -48,6 +49,6 @@ if __name__ == '__main__':
     hallway2.change_to_occupied()
     hallway1.change_to_not_occupied()
    
-    
+
     
 
