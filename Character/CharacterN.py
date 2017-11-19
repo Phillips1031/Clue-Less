@@ -3,6 +3,8 @@ Created on Oct 25, 2017
 
 @author: Zack
 '''
+from location import Room, Hallway
+import inspect
 
 class Character(object):
     '''
@@ -18,7 +20,9 @@ class Character(object):
         '''
         self.name = characterName
         self.location = location
-        location.add_occupant(self)
+    
+    def __str__(self):
+        return self.name
         
     def current_location(self):
         print(self.location)
@@ -34,16 +38,28 @@ class Character(object):
         selection = input("Enter the location you would like to move to:")
         
         for location in connectingLocations:
-            if selection == location.name:
-                if location.add_occupant(self):
-                    print("{} was able to enter the {}".format(self.name, location.name))
+            if selection == location.__str__():
+                if location.available_to_enter():
+                    print('{} is available to enter {}'.format(location,location.available_to_enter()))
+                    #Change current location to unoccupied
+                    if isinstance(self.location, Hallway):
+                        print("Freeing current location")
+                        self.location.occupied = False
+                    #if moving to a hallway change it to occupied
+                    if isinstance(location, Hallway):
+                        print("Changing new location")
+                        location.occupied = True
+                    print("{} was able to enter the {}".format(self, location))
+                    self.location = location
                 else:
-                    print("Could not enter {}".format(location.name))
+                    print("Could not enter {}, it was occupied".format(location))
+                break
+            elif selection == 'Nop':
                 break
         else:
             print("Input location not found")
     
-        print('End of possible_moves')
+        print('End of possible_moves\n')
         
         
  
