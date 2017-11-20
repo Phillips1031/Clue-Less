@@ -73,5 +73,17 @@ class Room(Location):
     def available_to_enter(self):
         return True
 
+class StartLocation(Location):
+    '''
+    Connections between rooms.
+    '''
 
+    def __init__(self, startLocation):
+        '''
+        Constructor
+        '''
+        super().__init__(startLocation)
+        
+    def __str__(self):
+        return self.roomType
     

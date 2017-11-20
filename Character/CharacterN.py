@@ -14,28 +14,29 @@ class Character(object):
     '''
 
 
-    def __init__(self, characterName, location):
+    def __init__(self, characterType, location):
         '''
         Constructor
         '''
-        self.name = characterName
+        self.characterType = characterType
         self.location = location
     
     def __str__(self):
-        return self.name
+        return self.characterType.name
         
     def current_location(self):
         print(self.location)
         
-    def possible_moves(self):
+    def available_moves(self):
         
-        try:
-            print("{} is currently in the {}".format(self.name, self.location))
-            self.location.show_connecting_locations()
-            connectingLocations = self.location.return_connecting_locations()
-        except:
-            print("I messed up")
-        selection = input("Enter the location you would like to move to:")
+        print("{} is currently in the {}".format(self, self.location))
+        self.location.show_connecting_locations()
+        return self.location.return_connecting_locations()
+         
+    def move_location(self, selection):
+        
+        connectingLocations = self.available_moves()
+        result = False
         
         for location in connectingLocations:
             if selection == location.__str__():
@@ -47,19 +48,17 @@ class Character(object):
                         self.location.occupied = False
                     #if moving to a hallway change it to occupied
                     if isinstance(location, Hallway):
-                        print("Changing new location")
+                        print("Occupied new Hallway")
                         location.occupied = True
                     print("{} was able to enter the {}".format(self, location))
                     self.location = location
+                    result = True
                 else:
                     print("Could not enter {}, it was occupied".format(location))
                 break
-            elif selection == 'Nop':
-                break
         else:
             print("Input location not found")
+            
     
-        print('End of possible_moves\n')
-        
-        
+        return result   
  
