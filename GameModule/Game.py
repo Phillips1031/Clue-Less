@@ -20,6 +20,7 @@ class Game(object):
         
     def add_player(self, player):
         self.players.append(player)
+        print('Adding player {}'.format(player))
         
     def start_game(self):
         result = False
@@ -41,7 +42,11 @@ class Game(object):
             self.players.remove(randomplayer)
         print(self.turnOrder)
         
-    def end_turn(self):
+    def return_turn_order(self):
+        return self.turnOrder
+        
+        
+    def next_turn(self):
         nextplayer = self.turnOrder.pop()
         self.turnOrder.appendleft(nextplayer)
         return nextplayer

@@ -18,6 +18,9 @@ class Player(object):
         self.face = name
     
     def __str__(self):
+        return self.face
+    
+    def __repr__(self):
         return self.face    
         
     def add_character(self, character):
