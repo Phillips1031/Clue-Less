@@ -107,8 +107,8 @@ if __name__ == '__main__':
     mustard = CharacterN.Character(CharacterEnum.ColonelMustard, MustardStart)
     plum = CharacterN.Character(CharacterEnum.ProfessorPlum, PlumStart)
     
-    player1 = Player.Player()
-    player2 = Player.Player()
+    player1 = Player.Player('Player1')
+    player2 = Player.Player('Player2')
     
     player1.add_character(mustard)
     player2.add_character(plum)

@@ -16,6 +16,7 @@ class Player(object):
         '''
         self.character = []
         self.face = name
+        self.oneMovePerTurn = True
     
     def __str__(self):
         return self.face
@@ -26,6 +27,18 @@ class Player(object):
     def add_character(self, character):
         self.character = character
         
-    def move_character(self, requestedLocation):
+    def has_character_already_moved(self):
+        return not self.oneMovePerTurn   
         
-        return self.character.move_location(requestedLocation)
+    def move_character(self, requestedLocation):
+        #Check to see if the player has already moved this Turn
+        if self.oneMovePerTurn == True:
+            #if the requested location is acceptable complete the move
+            if self.character.move_location(requestedLocation):
+                #if the move was successful take away the move
+                self.oneMovePerTurn = False
+        else:
+            print('Character has already moved this turn\n')        
+    def end_turn(self):
+        #Set back the ability to move
+        self.oneMovePerTurn = True
