@@ -10,6 +10,7 @@ from RoomEnum import RoomEnum, CharacterEnum
 from unittest import case
 from _overlapped import NULL
 from location import Hallway, Room, StartLocation
+from Clues import ClueDeck
 
 def connect_locations(location1, location2):   
     location1.add_connecting_locations(location2)
@@ -177,24 +178,69 @@ if __name__ == '__main__':
      
     print('Characters Selected Starting Game')   
     
+    print('Selecting Final Evidence')
+    
+    deck = ClueDeck.ClueDeck()
+    finalEvidence = deck.dealFinalEvidence()
+    
     turnOrder = newGame.return_turn_order()
     
-    while True:
+    while deck.hasCards():
+        dealtClue = deck.dealClue()
+        player = newGame.next_turn()
+        player.add_clue(dealtClue)
+    
+    for player in list(turnOrder):
+        print('{}\'s hand:\n'.format(player))
+        player.show_hand()
+        print('\n')
+    
+    print('{}, {}, {}'.format(finalEvidence.weapon, finalEvidence.character, finalEvidence.room))
+    
+    gameOver = False
+    
+    while not gameOver:
         currentPlayer = newGame.next_turn()
-        print('{}\'s turn:\n'.format(currentPlayer))
-        endOfTurn = False
-        while not endOfTurn:
-            print('Move or EndTurn?')
-            userInput = input()
-            if userInput in ['Move', 'm']:
-                currentPlayer.character.available_moves()
-                selection = input("Enter a movement: ")
-                currentPlayer.move_character(selection)
-            elif userInput in ['EndTurn', 'e']:
-                currentPlayer.end_turn()
-                endOfTurn = True
-            else:
-                print("Invalid Selection\n")
+        if not currentPlayer.hasLostGame:
+            print('{}\'s turn:\n'.format(currentPlayer))
+            endOfTurn = False
+            while not endOfTurn:
+                print('Move or EndTurn?')
+                userInput = input()
+                if userInput in ['Move', 'm']:
+                    currentPlayer.character.available_moves()
+                    selection = input("Enter a movement: ")
+                    currentPlayer.move_character(selection)
+                elif userInput in ['EndTurn', 'e']:
+                    currentPlayer.end_turn()
+                    endOfTurn = True
+                elif userInput in ['Accusation', 'a']:
+                    print('Enter the details of the crime\n')
+                    print('What was the location?')
+                    locationGuess = input()
+                    print('\nWho committed the crime?')
+                    characterGuess = input()
+                    print('\nWhat was the murder weapon')
+                    weaponGuess = input()
+                    
+                    result = currentPlayer.check_accusation(finalEvidence, locationGuess, characterGuess, weaponGuess)
+                    
+                    if result == True:
+                        print('Congraulations {} you have won the game!'.format(currentPlayer))
+                        print('The right answer was {}, {}, {}'.format( locationGuess, characterGuess, characterGuess))
+                        gameOver = True
+                    else:
+                        print('Oh no! Wrong Accusation!')
+                        print('No more turns for you!')
+                        currentPlayer.hasLostGame = True
+                        currentPlayer.oneMovePerTurn = False
+                        if(isinstance(currentPlayer.character.location, Hallway)):
+                            print('You\'re also blocking a hallway. Let\'s get you out of the way.')
+                            location = currentPlayer.character.connectingLocations[0]
+                            currentPlayer.oneMovePerTurn = True
+                            currentPlayer.move_character(location)
+                else:
+                    print("Invalid Selection\n")
         
-    print(turnOrder)
+    print('The Game is over!')
         

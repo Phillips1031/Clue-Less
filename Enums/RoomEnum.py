@@ -29,3 +29,14 @@ class CharacterEnum ( Enum ):
     MrGreen = 3
     MrsWhite = 4
     MrsPeacock = 5
+
+class WeaponEnum ( Enum ):
+    '''
+    Enum class of weapons
+    '''
+    Rope = 0
+    LeadPipe = 1
+    Knife = 2
+    Wrench = 3
+    Candlestick = 4
+    Revolver = 5
