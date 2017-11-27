@@ -50,3 +50,14 @@ class Game(object):
         nextplayer = self.turnOrder.pop()
         self.turnOrder.appendleft(nextplayer)
         return nextplayer
+    
+    #Returns True if any players are still playing, meaning they have
+    #not lost. Returns false if all players have lost
+    def areAnyPlayersLeft(self):
+        result = False
+        for player in list(self.turnOrder):
+            if player.hasLostGame == False:
+                result = True
+                break
+        return result    
+        

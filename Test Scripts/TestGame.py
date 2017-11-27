@@ -236,11 +236,16 @@ if __name__ == '__main__':
                         currentPlayer.oneMovePerTurn = False
                         if(isinstance(currentPlayer.character.location, Hallway)):
                             print('You\'re also blocking a hallway. Let\'s get you out of the way.')
-                            location = currentPlayer.character.connectingLocations[0]
+                            #popping location and adding it back. This is the only way I know how to 
+                            #get a random location from the set 
+                            location = currentPlayer.character.location.connectingLocations.pop()
+                            currentPlayer.character.location.add_connecting_locations(location)
+                            #Reset the players oneMovePerTurn to true to ensure they move
                             currentPlayer.oneMovePerTurn = True
-                            currentPlayer.move_character(location)
+                            currentPlayer.move_character(location.__str__())
                 else:
                     print("Invalid Selection\n")
-        
+        elif not newGame.areAnyPlayersLeft():
+            gameOver = True
     print('The Game is over!')
         
