@@ -205,7 +205,11 @@ if __name__ == '__main__':
             print('{}\'s turn:\n'.format(currentPlayer))
             endOfTurn = False
             while not endOfTurn:
-                print('Move or EndTurn?')
+                if currentPlayer.oneMovePerTurn == True:
+                    print('Move')
+                if currentPlayer.suggestionPossible == True:
+                    print('Suggestion')    
+                print('EndTurn \n Accusation?')
                 userInput = input()
                 if userInput in ['Move', 'm']:
                     currentPlayer.character.available_moves()
@@ -214,6 +218,8 @@ if __name__ == '__main__':
                 elif userInput in ['EndTurn', 'e']:
                     currentPlayer.end_turn()
                     endOfTurn = True
+                elif userInput in ['Suggestion', 's']:
+                    currentPlayer.make_suggestion()
                 elif userInput in ['Accusation', 'a']:
                     print('Enter the details of the crime\n')
                     print('What was the location?')
@@ -243,6 +249,7 @@ if __name__ == '__main__':
                             #Reset the players oneMovePerTurn to true to ensure they move
                             currentPlayer.oneMovePerTurn = True
                             currentPlayer.move_character(location.__str__())
+                            endOfTurn = True
                 else:
                     print("Invalid Selection\n")
         elif not newGame.areAnyPlayersLeft():

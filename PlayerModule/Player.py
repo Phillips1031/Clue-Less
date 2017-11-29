@@ -3,6 +3,7 @@ Created on Nov 19, 2017
 
 @author: Zack
 '''
+from location import Room
 
 class Player(object):
     '''
@@ -18,6 +19,7 @@ class Player(object):
         self.face = name
         self.oneMovePerTurn = True
         self.hasLostGame = False
+        self.suggestionPossible = False
         self.cardsHeld = []
     
     def __str__(self):
@@ -46,11 +48,19 @@ class Player(object):
             if self.character.move_location(requestedLocation):
                 #if the move was successful take away the move
                 self.oneMovePerTurn = False
+                if isinstance(requestedLocation, Room):
+                    self.suggestionPossible = True
         else:
-            print('Character has already moved this turn\n')        
+            print('Character has already moved this turn\n') 
+            
+    def make_suggestion(self):       
+        print('Sugestion place holder')
+        self.suggestionPossible = False
+        self.oneMovePerTurn = False
     def end_turn(self):
         #Set back the ability to move
         self.oneMovePerTurn = True
+        self.suggestionPossible = False
         
     def check_accusation(self, finalEvidence, locationGuess, characterGuess, weaponGuess):
         result = False
