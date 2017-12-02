@@ -43,8 +43,7 @@ class Game(object):
         print(self.turnOrder)
         
     def return_turn_order(self):
-        return self.turnOrder
-        
+        return self.turnOrder  
         
     def next_turn(self):
         nextplayer = self.turnOrder.pop()

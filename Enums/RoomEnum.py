@@ -40,3 +40,27 @@ class WeaponEnum ( Enum ):
     Wrench = 3
     Candlestick = 4
     Revolver = 5
+
+def check_room_input(roomInput):
+    result = False
+    for room in RoomEnum:
+        if room.name == roomInput:
+            result = True
+            break
+    return result   
+
+def check_weapon_input(weaponInput):
+    result = False
+    for weapon in WeaponEnum:
+        if weapon.name == weaponInput:
+            result = True
+            break
+    return result   
+
+def check_character_input(characterInput):
+    result = False
+    for character in CharacterEnum:
+        if character.name == characterInput:
+            result = True
+            break
+    return result   

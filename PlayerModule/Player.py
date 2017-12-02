@@ -4,6 +4,7 @@ Created on Nov 19, 2017
 @author: Zack
 '''
 from location import Room
+from RoomEnum import check_character_input, check_room_input, check_weapon_input
 
 class Player(object):
     '''
@@ -48,15 +49,58 @@ class Player(object):
             if self.character.move_location(requestedLocation):
                 #if the move was successful take away the move
                 self.oneMovePerTurn = False
-                if isinstance(requestedLocation, Room):
+                if isinstance(self.character.location, Room):
                     self.suggestionPossible = True
         else:
             print('Character has already moved this turn\n') 
             
     def make_suggestion(self):       
-        print('Sugestion place holder')
         self.suggestionPossible = False
         self.oneMovePerTurn = False
+        print('Input Character suggestion')
+        characterSuggestion = input()
+        while  not check_character_input(characterSuggestion):
+            print('Not a valid Suggestion, try again')
+            characterSuggestion = input()
+        print('Input Weapon suggestion')
+        weaponSuggestion = input()
+        while not check_weapon_input(weaponSuggestion):
+            print('Not a valid Suggestion, try again')
+            weaponSuggestion = input()
+        roomSuggestion = self.character.location.__str__()
+        Suggestion = []
+        Suggestion.append(roomSuggestion)
+        Suggestion.append(weaponSuggestion)
+        Suggestion.append(characterSuggestion)  
+        return Suggestion 
+                
+    def disprove_suggestion(self, suggestion):
+        
+        possibleDisprovements =[]
+        
+        for partOfSuggestion in suggestion:
+            for cards in self.cardsHeld:
+                if cards.specific.name == partOfSuggestion:
+                    possibleDisprovements.append(cards)
+                    
+        selection = ('none')
+        
+        if  possibleDisprovements:      
+            Disproved = False
+            while not Disproved:
+                print('Cards that disprove the suggestion')
+                for disprovement in possibleDisprovements:
+                    print("{}\n".format(disprovement))
+                print('Enter a card')
+                selection = input()
+                for disprovement in possibleDisprovements:
+                    if selection == disprovement.specific.name:
+                        Disproved = True                
+        else: 
+            print("You can not disprove this suggestion\n") 
+
+        return selection
+    
     def end_turn(self):
         #Set back the ability to move
         self.oneMovePerTurn = True

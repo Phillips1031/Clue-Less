@@ -11,6 +11,7 @@ from unittest import case
 from _overlapped import NULL
 from location import Hallway, Room, StartLocation
 from Clues import ClueDeck
+from copy import copy
 
 def connect_locations(location1, location2):   
     location1.add_connecting_locations(location2)
@@ -209,8 +210,10 @@ if __name__ == '__main__':
                     print('Move')
                 if currentPlayer.suggestionPossible == True:
                     print('Suggestion')    
-                print('EndTurn \n Accusation?')
+                print('EndTurn')
+                print('Accusation')
                 userInput = input()
+                
                 if userInput in ['Move', 'm']:
                     currentPlayer.character.available_moves()
                     selection = input("Enter a movement: ")
@@ -219,7 +222,16 @@ if __name__ == '__main__':
                     currentPlayer.end_turn()
                     endOfTurn = True
                 elif userInput in ['Suggestion', 's']:
-                    currentPlayer.make_suggestion()
+                    suggestion = currentPlayer.make_suggestion()
+                    disprove_order = copy(newGame.return_turn_order())
+                    for players in disprove_order:
+                        print('{} you try to disprove'.format(players))
+                        card = player.disprove_suggestion(suggestion)
+                        if card != 'none':
+                            print('Show Card to player')
+                            break
+                    else:
+                        print('No players could disprove')
                 elif userInput in ['Accusation', 'a']:
                     print('Enter the details of the crime\n')
                     print('What was the location?')
@@ -249,7 +261,7 @@ if __name__ == '__main__':
                             #Reset the players oneMovePerTurn to true to ensure they move
                             currentPlayer.oneMovePerTurn = True
                             currentPlayer.move_character(location.__str__())
-                            endOfTurn = True
+                        endOfTurn = True
                 else:
                     print("Invalid Selection\n")
         elif not newGame.areAnyPlayersLeft():
