@@ -226,7 +226,7 @@ if __name__ == '__main__':
                     disprove_order = copy(newGame.return_turn_order())
                     for players in disprove_order:
                         print('{} you try to disprove'.format(players))
-                        card = player.disprove_suggestion(suggestion)
+                        card = players.disprove_suggestion(suggestion)
                         if card != 'none':
                             print('Show Card to player')
                             break
