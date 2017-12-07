@@ -5,6 +5,7 @@ Created on Nov 19, 2017
 '''
 from location import Room
 from RoomEnum import check_character_input, check_room_input, check_weapon_input
+from SuggestionN import  SuggestionClass
 
 class Player(object):
     '''
@@ -46,11 +47,18 @@ class Player(object):
         #Check to see if the player has already moved this Turn
         if self.oneMovePerTurn == True:
             #if the requested location is acceptable complete the move
-            if self.character.move_location(requestedLocation):
-                #if the move was successful take away the move
-                self.oneMovePerTurn = False
-                if isinstance(self.character.location, Room):
-                    self.suggestionPossible = True
+            connectingLocations = self.character.available_moves()
+            
+            for location in connectingLocations:
+                if requestedLocation == location.__str__():
+                    if self.character.move_location(requestedLocation):
+                        #if the move was successful take away the move
+                        self.oneMovePerTurn = False
+                        if isinstance(self.character.location, Room):
+                            self.suggestionPossible = True
+                break
+            else:
+                print("Input location not found")   
         else:
             print('Character has already moved this turn\n') 
             
@@ -68,17 +76,14 @@ class Player(object):
             print('Not a valid Suggestion, try again')
             weaponSuggestion = input()
         roomSuggestion = self.character.location.__str__()
-        Suggestion = []
-        Suggestion.append(roomSuggestion)
-        Suggestion.append(weaponSuggestion)
-        Suggestion.append(characterSuggestion)  
-        return Suggestion 
+        mySuggestion = SuggestionClass(characterSuggestion, roomSuggestion, weaponSuggestion) 
+        return mySuggestion 
                 
     def disprove_suggestion(self, suggestion):
         
         possibleDisprovements =[]
         
-        for partOfSuggestion in suggestion:
+        for partOfSuggestion in [suggestion.character, suggestion.room, suggestion.weapon]:
             for cards in self.cardsHeld:
                 if cards.specific.name == partOfSuggestion:
                     possibleDisprovements.append(cards)

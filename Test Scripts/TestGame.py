@@ -30,6 +30,8 @@ if __name__ == '__main__':
     Ballroom = Room(RoomEnum.Ballroom)
     Kitchen = Room(RoomEnum.Kitchen)
     
+    roomList = [Study, Hall, Lounge, Library, BillardRoom, DiningRoom, Conservatory, Ballroom, Kitchen]
+    
     #Create the starting locations for the characters
     ScarlettStart = StartLocation('ScarletStart')
     MustardStart = StartLocation('MustardStart')
@@ -113,6 +115,7 @@ if __name__ == '__main__':
     Peacock = CharacterN.Character(CharacterEnum.MrsPeacock, PeacockStart)
  
     possibleCharacters = [mustard, plum, scarlet, green, white, Peacock]
+    characterList = copy(possibleCharacters)
     
     startGame = False
    
@@ -177,9 +180,9 @@ if __name__ == '__main__':
             else:
                 print('Character already selected')
      
-    print('Characters Selected Starting Game')   
+    print('\nCharacters Selected Starting Game')   
     
-    print('Selecting Final Evidence')
+    print('\nSelecting Final Evidence')
     
     deck = ClueDeck.ClueDeck()
     finalEvidence = deck.dealFinalEvidence()
@@ -207,22 +210,32 @@ if __name__ == '__main__':
             endOfTurn = False
             while not endOfTurn:
                 if currentPlayer.oneMovePerTurn == True:
-                    print('Move')
+                    print('\nMove')
                 if currentPlayer.suggestionPossible == True:
                     print('Suggestion')    
                 print('EndTurn')
                 print('Accusation')
                 userInput = input()
                 
-                if userInput in ['Move', 'm']:
+                if userInput in ['Move', 'm'] and currentPlayer.oneMovePerTurn == True:
                     currentPlayer.character.available_moves()
                     selection = input("Enter a movement: ")
                     currentPlayer.move_character(selection)
                 elif userInput in ['EndTurn', 'e']:
                     currentPlayer.end_turn()
                     endOfTurn = True
-                elif userInput in ['Suggestion', 's']:
+                    
+                elif userInput in ['Suggestion', 's'] and currentPlayer.suggestionPossible == True:
                     suggestion = currentPlayer.make_suggestion()
+                    for character in characterList:
+                        if suggestion.character == character.name:
+                            #Will break with character being the character in the suggestion
+                            break
+                    for room in roomList:
+                        if suggestion.room == room.__str__():
+                            #Will break with room being the room in the suggestion
+                            break
+                    
                     disprove_order = copy(newGame.return_turn_order())
                     for players in disprove_order:
                         print('{} you try to disprove'.format(players))
