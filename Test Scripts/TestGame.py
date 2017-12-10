@@ -228,14 +228,14 @@ if __name__ == '__main__':
                 elif userInput in ['Suggestion', 's'] and currentPlayer.suggestionPossible == True:
                     suggestion = currentPlayer.make_suggestion()
                     for character in characterList:
-                        if suggestion.character == character.name:
+                        if suggestion.character == character.__str__():
                             #Will break with character being the character in the suggestion
                             break
                     for room in roomList:
                         if suggestion.room == room.__str__():
                             #Will break with room being the room in the suggestion
                             break
-                    
+                    character.move_location(room)
                     disprove_order = copy(newGame.return_turn_order())
                     for players in disprove_order:
                         print('{} you try to disprove'.format(players))

@@ -51,12 +51,12 @@ class Player(object):
             
             for location in connectingLocations:
                 if requestedLocation == location.__str__():
-                    if self.character.move_location(requestedLocation):
+                    if self.character.move_location(location):
                         #if the move was successful take away the move
                         self.oneMovePerTurn = False
                         if isinstance(self.character.location, Room):
                             self.suggestionPossible = True
-                break
+                    break
             else:
                 print("Input location not found")   
         else:
